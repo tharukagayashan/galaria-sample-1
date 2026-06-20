@@ -4,6 +4,8 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 
 export default defineConfig({
+  // GitHub Pages serves this project from the /galaria-sample-1/ subpath.
+  base: "/galaria-sample-1/",
   server: { host: "::", port: 8080 },
   resolve: {
     // Resolve the "@/*" -> "./src/*" alias from tsconfig.json natively (Vite 8+).
@@ -39,6 +41,9 @@ export default defineConfig({
       },
       // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
       server: { entry: "server" },
+      // Prerender routes to static HTML (dist/client/index.html) so static hosts
+      // like GitHub Pages can serve the page content; it then hydrates client-side.
+      prerender: { enabled: true },
     }),
     viteReact(),
   ],
