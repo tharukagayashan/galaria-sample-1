@@ -7,10 +7,9 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
@@ -37,9 +36,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -77,18 +73,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
+      { title: "Galeria Art & More — Handcrafted Sri Lankan Art Studio" },
       { name: "description", content: "Sri Lankan Canvas is a one-page art gallery website for Galeria Art & More." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
+      { name: "author", content: "Galeria Art & More" },
+      { property: "og:title", content: "Galeria Art & More — Handcrafted Sri Lankan Art" },
       { property: "og:description", content: "Sri Lankan Canvas is a one-page art gallery website for Galeria Art & More." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
+      { name: "twitter:title", content: "Galeria Art & More — Handcrafted Sri Lankan Art" },
       { name: "twitter:description", content: "Sri Lankan Canvas is a one-page art gallery website for Galeria Art & More." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d5d84b36-06a1-43dc-9d71-5c7604906abd/id-preview-1214a914--4d6fd1ce-62c4-48d4-8eaf-4c1a461c14ea.lovable.app-1781972929050.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d5d84b36-06a1-43dc-9d71-5c7604906abd/id-preview-1214a914--4d6fd1ce-62c4-48d4-8eaf-4c1a461c14ea.lovable.app-1781972929050.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
