@@ -1,17 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X, MapPin, Phone, Mail, Globe, MessageCircle, ArrowRight, Palette, Send, ChevronRight } from "lucide-react";
+import { Menu, X, MapPin, Phone, Mail, Globe, MessageCircle, ArrowRight, Send, ChevronRight, Plus } from "lucide-react";
 
-import heroImg from "@/assets/hero.jpg";
-import aboutImg from "@/assets/about.jpg";
-import art1 from "@/assets/art-1.jpg";
-import art2 from "@/assets/art-2.jpg";
-import art3 from "@/assets/art-3.jpg";
-import art4 from "@/assets/art-4.jpg";
-import art5 from "@/assets/art-5.jpg";
-import art6 from "@/assets/art-6.jpg";
-import art7 from "@/assets/art-7.jpg";
-import art8 from "@/assets/art-8.jpg";
+import heroImg from "@/assets/client/client-05.jpeg";
+import aboutImg from "@/assets/art/design-01.jpeg";
+
+// Real photos auto-imported from the asset folders — drop a new file into
+// src/assets/art (designs for sale) or src/assets/client (collector photos)
+// and it wires itself up here, sorted by filename.
+const designImages = Object.entries(
+  import.meta.glob("../assets/art/*.{jpg,jpeg,png,webp}", { eager: true, import: "default" }),
+)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([, src]) => src as string);
+
+const clientImages = Object.entries(
+  import.meta.glob("../assets/client/*.{jpg,jpeg,png,webp}", { eager: true, import: "default" }),
+)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([, src]) => src as string)
+  .filter((src) => src !== heroImg);
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -27,23 +35,11 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Category = "all" | "canvas" | "sketch" | "local";
-
-const artworks: { src: string; title: string; medium: string; dims: string; category: Exclude<Category, "all"> }[] = [
-  { src: art1, title: "Guardian of the Grove", medium: "Acrylic on Canvas", dims: '24" × 30"', category: "canvas" },
-  { src: art2, title: "Kandyan Reverie", medium: "Graphite on Paper", dims: '12" × 16"', category: "sketch" },
-  { src: art3, title: "Stilt Fishermen at Dusk", medium: "Oil on Canvas", dims: '28" × 36"', category: "canvas" },
-  { src: art4, title: "Lotus Sanctuary", medium: "Watercolor & Ink", dims: '14" × 18"', category: "sketch" },
-  { src: art5, title: "Coastal Wanderer", medium: "Acrylic on Canvas", dims: '20" × 20"', category: "canvas" },
-  { src: art6, title: "Raksha Mask — Crimson", medium: "Hand-carved Wood", dims: '18" × 24"', category: "local" },
-  { src: art7, title: "Yala's Silent Hunter", medium: "Oil on Canvas", dims: '24" × 28"', category: "canvas" },
-  { src: art8, title: "The Tea Picker", medium: "Charcoal on Paper", dims: '12" × 16"', category: "sketch" },
-];
-
 const navLinks = [
   { id: "home", label: "Home" },
   { id: "about", label: "About Us" },
   { id: "gallery", label: "Gallery" },
+  { id: "clients", label: "Collectors" },
   { id: "orders", label: "Custom Orders" },
   { id: "contact", label: "Contact" },
 ];
@@ -54,7 +50,6 @@ function Index() {
   const [active, setActive] = useState("home");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [filter, setFilter] = useState<Category>("all");
   const [lightbox, setLightbox] = useState<number | null>(null);
 
   useEffect(() => {
@@ -77,8 +72,6 @@ function Index() {
     return () => observer.disconnect();
   }, []);
 
-  const filtered = filter === "all" ? artworks : artworks.filter((a) => a.category === filter);
-
   const scrollTo = (id: string) => {
     setMobileOpen(false);
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -89,7 +82,7 @@ function Index() {
       {/* NAV */}
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          scrolled ? "bg-background/85 backdrop-blur-xl border-b border-border/60 shadow-sm" : "bg-transparent"
+          scrolled ? "bg-background/85 backdrop-blur-xl border-b border-border/60 shadow-sm" : "bg-gradient-to-b from-charcoal/55 to-transparent"
         }`}
       >
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
@@ -97,8 +90,8 @@ function Index() {
             <span className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground font-display text-xl font-semibold shadow-sm transition group-hover:scale-105">
               G
             </span>
-            <span className="font-display text-xl font-semibold tracking-tight text-charcoal">
-              Galeria <span className="text-primary">Art & More</span>
+            <span className={`font-display text-xl font-semibold tracking-tight transition-colors ${scrolled ? "text-charcoal" : "text-cream"}`}>
+              Galeria <span className={scrolled ? "text-primary" : "text-ochre"}>Art & More</span>
             </span>
           </button>
 
@@ -108,12 +101,18 @@ function Index() {
                 <button
                   onClick={() => scrollTo(l.id)}
                   className={`relative px-4 py-2 text-sm font-medium tracking-wide transition-colors ${
-                    active === l.id ? "text-primary" : "text-charcoal/70 hover:text-charcoal"
+                    active === l.id
+                      ? scrolled
+                        ? "text-primary"
+                        : "text-cream"
+                      : scrolled
+                        ? "text-charcoal/70 hover:text-charcoal"
+                        : "text-cream/80 hover:text-cream"
                   }`}
                 >
                   {l.label}
                   <span
-                    className={`absolute inset-x-3 -bottom-0.5 h-[2px] rounded-full bg-primary transition-all duration-300 ${
+                    className={`absolute inset-x-3 -bottom-0.5 h-[2px] rounded-full transition-all duration-300 ${scrolled ? "bg-primary" : "bg-cream"} ${
                       active === l.id ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
                     }`}
                   />
@@ -131,7 +130,7 @@ function Index() {
             Inquire <ArrowRight className="h-4 w-4" />
           </a>
 
-          <button onClick={() => setMobileOpen((v) => !v)} className="lg:hidden p-2 text-charcoal" aria-label="Menu">
+          <button onClick={() => setMobileOpen((v) => !v)} className={`lg:hidden p-2 transition-colors ${scrolled ? "text-charcoal" : "text-cream"}`} aria-label="Menu">
             {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </nav>
@@ -159,7 +158,7 @@ function Index() {
 
       {/* HERO */}
       <section id="home" className="relative min-h-screen w-full overflow-hidden">
-        <img src={heroImg} alt="Sri Lankan art studio with handcrafted canvas paintings" className="absolute inset-0 h-full w-full object-cover" width={1920} height={1280} />
+        <img src={heroImg} alt="Visitors browsing handcrafted paintings at the Galeria Art & More open-air gallery in Hambantota, Sri Lanka" className="absolute inset-0 h-full w-full object-cover" width={1920} height={1280} />
         <div className="absolute inset-0" style={{ background: "var(--gradient-hero)" }} />
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal/20 via-charcoal/30 to-charcoal/70" />
 
@@ -204,7 +203,7 @@ function Index() {
           <div className="relative">
             <div className="absolute -inset-4 -z-10 rounded-3xl bg-gradient-to-br from-ochre/20 to-primary/10 blur-2xl" />
             <div className="overflow-hidden rounded-2xl border border-border" style={{ boxShadow: "var(--shadow-frame)" }}>
-              <img src={aboutImg} alt="Sri Lankan artist at her home studio easel" className="h-full w-full object-cover" loading="lazy" width={1200} height={1400} />
+              <img src={aboutImg} alt="A handcrafted original painting by Galeria Art & More" className="h-full w-full object-cover" loading="lazy" width={1200} height={1400} />
             </div>
             <div className="absolute -bottom-6 -right-6 hidden rounded-2xl border border-border bg-card px-6 py-5 shadow-xl sm:block">
               <p className="font-display text-3xl font-semibold text-primary">15+</p>
@@ -253,54 +252,54 @@ function Index() {
               A curated collection of island stories.
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-charcoal/70">
-              Browse a selection of recent works. Each piece is original, one-of-a-kind and available for
-              commission in custom sizes.
+              Browse a selection of original works — canvas paintings, watercolours and sketches. Each piece is
+              one-of-a-kind and available for commission in custom sizes.
             </p>
-          </div>
-
-          {/* Filters */}
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-2">
-            {[
-              { id: "all", label: "All Masterpieces" },
-              { id: "canvas", label: "Canvas Paintings" },
-              { id: "sketch", label: "Sketches" },
-              { id: "local", label: "Local Art & More" },
-            ].map((t) => (
-              <button
-                key={t.id}
-                onClick={() => setFilter(t.id as Category)}
-                className={`rounded-full border px-5 py-2.5 text-sm font-medium tracking-wide transition ${
-                  filter === t.id
-                    ? "border-primary bg-primary text-primary-foreground shadow-sm"
-                    : "border-border bg-card text-charcoal/70 hover:border-primary/40 hover:text-charcoal"
-                }`}
-              >
-                {t.label}
-              </button>
-            ))}
           </div>
 
           {/* Masonry */}
           <div className="mt-14 columns-1 gap-6 sm:columns-2 lg:columns-3 xl:columns-4">
-            {filtered.map((a) => {
-              const idx = artworks.indexOf(a);
-              return (
-                <button
-                  key={a.title}
-                  onClick={() => setLightbox(idx)}
-                  className="group relative mb-6 block w-full overflow-hidden rounded-xl border border-border bg-card text-left shadow-sm transition hover:shadow-xl break-inside-avoid"
-                >
-                  <img src={a.src} alt={a.title} loading="lazy" className="w-full transition duration-700 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/30 to-transparent opacity-0 transition group-hover:opacity-100" />
-                  <div className="absolute inset-x-0 bottom-0 translate-y-4 p-5 text-cream opacity-0 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                    <p className="font-display text-xl font-semibold leading-tight">{a.title}</p>
-                    <p className="mt-1 text-xs uppercase tracking-widest text-cream/70">
-                      {a.medium} · {a.dims}
-                    </p>
-                  </div>
-                </button>
-              );
-            })}
+            {designImages.map((src, idx) => (
+              <button
+                key={src}
+                onClick={() => setLightbox(idx)}
+                className="group relative mb-6 block w-full break-inside-avoid overflow-hidden rounded-xl border border-border bg-card text-left shadow-sm transition hover:shadow-xl"
+              >
+                <img src={src} alt={`Original artwork ${idx + 1} by Galeria Art & More`} loading="lazy" className="w-full transition duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/10 to-transparent opacity-0 transition group-hover:opacity-100" />
+                <div className="absolute inset-x-0 bottom-0 flex translate-y-4 items-center gap-2 p-5 text-cream opacity-0 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                  <Plus className="h-4 w-4" />
+                  <span className="text-sm font-medium tracking-wide">View piece</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* COLLECTORS */}
+      <section id="clients" className="relative px-6 py-24 lg:px-10 lg:py-32">
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="mb-4 text-xs font-medium uppercase tracking-[0.3em] text-primary">— Happy Collectors</p>
+            <h2 className="font-display text-4xl font-medium leading-tight text-charcoal sm:text-5xl lg:text-6xl text-balance">
+              Loved by visitors from around the world.
+            </h2>
+            <p className="mt-6 text-lg leading-relaxed text-charcoal/70">
+              A few of the wonderful people who've welcomed our art into their homes — from right here in
+              Hambantota to homes across the globe.
+            </p>
+          </div>
+
+          <div className="mt-14 columns-1 gap-6 sm:columns-2 lg:columns-3">
+            {clientImages.map((src, idx) => (
+              <div
+                key={src}
+                className="mb-6 break-inside-avoid overflow-hidden rounded-xl border border-border bg-card shadow-sm"
+              >
+                <img src={src} alt={`A happy Galeria Art & More collector ${idx + 1}`} loading="lazy" className="w-full" />
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -500,24 +499,20 @@ function Index() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="bg-charcoal">
-              <img src={artworks[lightbox].src} alt={artworks[lightbox].title} className="h-full max-h-[90vh] w-full object-contain" />
+              <img src={designImages[lightbox]} alt={`Original artwork ${lightbox + 1} by Galeria Art & More`} className="h-full max-h-[90vh] w-full object-contain" />
             </div>
             <div className="flex flex-col justify-between p-8">
               <div>
                 <p className="text-xs uppercase tracking-[0.3em] text-primary">Original Artwork</p>
-                <h3 className="mt-3 font-display text-3xl font-semibold text-charcoal">{artworks[lightbox].title}</h3>
+                <h3 className="mt-3 font-display text-3xl font-semibold text-charcoal">A Handcrafted Original</h3>
                 <dl className="mt-8 space-y-4 text-sm">
-                  <div className="flex justify-between border-b border-border pb-3">
-                    <dt className="text-muted-foreground">Medium</dt>
-                    <dd className="font-medium text-charcoal">{artworks[lightbox].medium}</dd>
-                  </div>
-                  <div className="flex justify-between border-b border-border pb-3">
-                    <dt className="text-muted-foreground">Dimensions</dt>
-                    <dd className="font-medium text-charcoal">{artworks[lightbox].dims}</dd>
-                  </div>
                   <div className="flex justify-between border-b border-border pb-3">
                     <dt className="text-muted-foreground">Origin</dt>
                     <dd className="font-medium text-charcoal">Hambantota, Sri Lanka</dd>
+                  </div>
+                  <div className="flex justify-between border-b border-border pb-3">
+                    <dt className="text-muted-foreground">Availability</dt>
+                    <dd className="font-medium text-charcoal">Original & Commission</dd>
                   </div>
                 </dl>
                 <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
@@ -526,7 +521,7 @@ function Index() {
                 </p>
               </div>
               <a
-                href={`https://wa.me/${WHATSAPP}?text=Hi%20Galeria%2C%20I%27m%20interested%20in%20%22${encodeURIComponent(artworks[lightbox].title)}%22.`}
+                href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(`Hi Galeria, I'm interested in a piece from your gallery (piece #${lightbox + 1}).`)}`}
                 target="_blank"
                 rel="noreferrer"
                 className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition hover:bg-primary/90"
@@ -537,9 +532,6 @@ function Index() {
           </div>
         </div>
       )}
-
-      {/* decorative palette icon used to ensure import not tree-shaken if reused later */}
-      <Palette className="hidden" />
     </div>
   );
 }
