@@ -4,8 +4,8 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 
 export default defineConfig({
-  // GitHub Pages serves this project from the /galaria-sample-1/ subpath.
-  base: "/galaria-sample-1/",
+  // GitHub Pages serves this project from the /galeria.lk/ subpath (repo name).
+  base: "/galeria.lk/",
   server: { host: "::", port: 8080 },
   resolve: {
     // Resolve the "@/*" -> "./src/*" alias from tsconfig.json natively (Vite 8+).

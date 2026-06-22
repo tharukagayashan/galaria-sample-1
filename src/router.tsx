@@ -7,7 +7,7 @@ export const getRouter = () => {
 
   const router = createRouter({
     routeTree,
-    // Mounts the app under Vite's base path (e.g. /galaria-sample-1/ on GitHub Pages)
+    // Mounts the app under Vite's base path (e.g. /galeria.lk/ on GitHub Pages)
     // so route matching works when served from a subpath.
     basepath: import.meta.env.BASE_URL,
     context: { queryClient },
