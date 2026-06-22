@@ -25,7 +25,7 @@ const clientImages = Object.entries(
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Galeria Art & More — Handcrafted Sri Lankan Art Studio" },
+      { title: "Galeria Art & More"},
       { name: "description", content: "Authentic handcrafted canvas paintings, sketches and local art at our walk-in gallery in Hambantota, Sri Lanka. Visit us to browse and buy in person." },
       { property: "og:title", content: "Galeria Art & More — Handcrafted Sri Lankan Art" },
       { property: "og:description", content: "Handcrafted Sri Lankan Art, Straight from the Heart. Visit our gallery in Hambantota, Sri Lanka." },
