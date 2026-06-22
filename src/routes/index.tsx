@@ -4,6 +4,7 @@ import { Menu, X, MapPin, Phone, Mail, Globe, MessageCircle, ArrowRight, Send, C
 
 import heroImg from "@/assets/client/client-05.jpeg";
 import aboutImg from "@/assets/art/design-01.jpeg";
+import logoUrl from "@/assets/logo/galeria_logo.png";
 
 // Real photos auto-imported from the asset folders — drop a new file into
 // src/assets/art (designs for sale) or src/assets/client (collector photos)
@@ -25,9 +26,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Galeria Art & More — Handcrafted Sri Lankan Art Studio" },
-      { name: "description", content: "Authentic handcrafted canvas paintings, sketches and local artistic creations from a home-studio in Hambantota, Sri Lanka. Worldwide shipping." },
+      { name: "description", content: "Authentic handcrafted canvas paintings, sketches and local art at our walk-in gallery in Hambantota, Sri Lanka. Visit us to browse and buy in person." },
       { property: "og:title", content: "Galeria Art & More — Handcrafted Sri Lankan Art" },
-      { property: "og:description", content: "Handcrafted Sri Lankan Art, Straight from the Heart. Custom orders for collectors worldwide." },
+      { property: "og:description", content: "Handcrafted Sri Lankan Art, Straight from the Heart. Visit our gallery in Hambantota, Sri Lanka." },
       { property: "og:image", content: heroImg },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -40,7 +41,7 @@ const navLinks = [
   { id: "about", label: "About Us" },
   { id: "gallery", label: "Gallery" },
   { id: "clients", label: "Collectors" },
-  { id: "orders", label: "Custom Orders" },
+  { id: "orders", label: "Visit Us" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -86,13 +87,8 @@ function Index() {
         }`}
       >
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
-          <button onClick={() => scrollTo("home")} className="flex items-center gap-2.5 group">
-            <span className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground font-display text-xl font-semibold shadow-sm transition group-hover:scale-105">
-              G
-            </span>
-            <span className={`font-display text-xl font-semibold tracking-tight transition-colors ${scrolled ? "text-charcoal" : "text-cream"}`}>
-              Galeria <span className={scrolled ? "text-primary" : "text-ochre"}>Art & More</span>
-            </span>
+          <button onClick={() => scrollTo("home")} className="group flex items-center" aria-label="Galeria Art & More — home">
+            <Logo className="h-14 w-auto transition group-hover:scale-105 sm:h-16" />
           </button>
 
           <ul className="hidden items-center gap-1 lg:flex">
@@ -175,8 +171,8 @@ function Index() {
               Handcrafted Sri Lankan Art, Straight from the Heart.
             </p>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-cream/75 lg:text-lg">
-              An independent home-studio nestled in the warm coastal town of Hambantota — crafting canvas paintings,
-              sketches and bespoke local art for collectors across the world. Worldwide shipping available.
+              An independent home-studio and open-air gallery in the warm coastal town of Hambantota — crafting
+              canvas paintings, sketches and local art. Come visit us to browse and take a piece home.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <button
@@ -190,7 +186,7 @@ function Index() {
                 onClick={() => scrollTo("contact")}
                 className="inline-flex items-center gap-2 rounded-full border border-cream/40 bg-cream/5 px-7 py-3.5 text-sm font-medium tracking-wide text-cream backdrop-blur-md transition hover:bg-cream/15"
               >
-                Commission a Piece
+                Plan Your Visit
               </button>
             </div>
           </div>
@@ -222,16 +218,16 @@ function Index() {
               canvas, sketch and carved piece is born from the colours, traditions and warmth of our island.
             </p>
             <p className="mt-4 text-lg leading-relaxed text-charcoal/75">
-              We don't run a factory — we welcome guests, take time with each commission, and ship our work
-              with care to homes around the world.
+              We don't run a factory — we welcome guests to the studio, take time with every visitor, and love
+              sharing the story behind each piece in person.
             </p>
 
             <div className="mt-10 grid grid-cols-2 gap-6">
               {[
-                { k: "Bespoke", v: "Commissioned for you" },
+                { k: "Original", v: "One-of-a-kind pieces" },
                 { k: "Authentic", v: "Made in Sri Lanka" },
-                { k: "Worldwide", v: "Global shipping" },
-                { k: "Personal", v: "Direct from the artist" },
+                { k: "Walk-in", v: "Visit our gallery" },
+                { k: "Personal", v: "Meet the artist" },
               ].map((b) => (
                 <div key={b.k} className="border-l-2 border-primary/40 pl-4">
                   <p className="font-display text-xl font-semibold text-charcoal">{b.k}</p>
@@ -253,7 +249,7 @@ function Index() {
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-charcoal/70">
               Browse a selection of original works — canvas paintings, watercolours and sketches. Each piece is
-              one-of-a-kind and available for commission in custom sizes.
+              one-of-a-kind and waiting to be seen in person at our gallery in Hambantota.
             </p>
           </div>
 
@@ -304,25 +300,26 @@ function Index() {
         </div>
       </section>
 
-      {/* ORDERS */}
+      {/* VISIT US */}
       <section id="orders" className="relative overflow-hidden px-6 py-24 lg:px-10 lg:py-32">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="mb-4 text-xs font-medium uppercase tracking-[0.3em] text-primary">— Custom Orders</p>
+            <p className="mb-4 text-xs font-medium uppercase tracking-[0.3em] text-primary">— Visit Us</p>
             <h2 className="font-display text-4xl font-medium leading-tight text-charcoal sm:text-5xl lg:text-6xl text-balance">
-              From the studio to your home, anywhere in the world.
+              Come and find us in Hambantota.
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-charcoal/70">
-              Three simple, personal steps — no middlemen, just a quiet conversation between you and the artist.
+              We're a walk-in studio gallery — drop by to browse the full collection and take your favourite
+              piece home the same day. No shipping, no online orders, just art you can see and hold.
             </p>
           </div>
 
           <div className="relative mt-20 grid gap-10 lg:grid-cols-3 lg:gap-8">
             <div className="absolute left-0 right-0 top-12 hidden h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent lg:block" />
             {[
-              { n: "01", t: "Browse the Gallery", d: "Explore the collection and find a style — canvas, sketch, or carved local art — that speaks to you." },
-              { n: "02", t: "Share Your Reference", d: "Message us on WhatsApp with your inspiration, preferred size, medium and any personal touches you'd love." },
-              { n: "03", t: "Shipping or Pickup", d: "Once your piece is complete, we ship worldwide with secure packaging — or welcome you for local pickup in Hambantota." },
+              { n: "01", t: "Find Us in Hambantota", d: "We're tucked into a quiet lane — message us on WhatsApp anytime and we'll happily share directions and our opening hours." },
+              { n: "02", t: "Browse in Person", d: "Take your time with the full collection and see the textures, colours and detail of every original up close." },
+              { n: "03", t: "Take It Home", d: "Found the one? Purchase it on the spot and carry home a piece of Sri Lanka — no shipping, no waiting." },
             ].map((s) => (
               <div key={s.n} className="relative">
                 <div className="relative z-10 mx-auto mb-6 grid h-24 w-24 place-items-center rounded-full border border-primary/30 bg-background shadow-sm">
@@ -338,12 +335,12 @@ function Index() {
 
           <div className="mx-auto mt-16 flex max-w-xl flex-col items-center gap-4 text-center">
             <a
-              href={`https://wa.me/${WHATSAPP}?text=Hi%20Galeria%2C%20I%27d%20love%20to%20commission%20a%20custom%20piece.`}
+              href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent("Hi Galeria, I'd love to visit your gallery — could you share directions and your opening hours?")}`}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-medium text-primary-foreground shadow-lg transition hover:bg-primary/90"
             >
-              <MessageCircle className="h-4 w-4" /> Start Your Commission on WhatsApp
+              <MessageCircle className="h-4 w-4" /> Message Us for Directions
             </a>
           </div>
         </div>
@@ -362,7 +359,7 @@ function Index() {
           <div className="mt-16 grid gap-10 lg:grid-cols-5 lg:gap-12">
             {/* Info */}
             <div className="lg:col-span-2">
-              <div className="rounded-2xl border border-border bg-card p-8 shadow-sm">
+              <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-8 shadow-sm">
                 <h3 className="font-display text-2xl font-semibold text-charcoal">The Home-Studio</h3>
                 <ul className="mt-6 space-y-5 text-sm">
                   {[
@@ -388,10 +385,10 @@ function Index() {
                 </ul>
 
                 <a
-                  href="https://www.google.com/maps/search/?api=1&query=72%2F1+Nahimi+Road+Sisilasagama+Hambantota+Sri+Lanka"
+                  href="https://maps.app.goo.gl/rJ2qazp77nh3rxSQ8"
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-charcoal px-6 py-3.5 text-sm font-medium text-cream transition hover:bg-charcoal/85"
+                  className="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-full bg-charcoal px-6 py-3.5 text-sm font-medium text-cream transition hover:bg-charcoal/85"
                 >
                   <MapPin className="h-4 w-4" /> Find Our Home-Studio on Google Maps
                 </a>
@@ -403,7 +400,7 @@ function Index() {
               onSubmit={(e) => {
                 e.preventDefault();
                 const fd = new FormData(e.currentTarget);
-                const msg = `Hi Galeria, I'm ${fd.get("name")} from ${fd.get("country")}.%0A%0AArtwork: ${fd.get("artwork")}%0A%0A${fd.get("message")}`;
+                const msg = `Hi Galeria, I'm ${fd.get("name")}.%0A%0AInterested in: ${fd.get("artwork")}%0A%0A${fd.get("message")}`;
                 window.open(`https://wa.me/${WHATSAPP}?text=${msg}`, "_blank");
               }}
               className="rounded-2xl border border-border bg-card p-8 shadow-sm lg:col-span-3"
@@ -414,21 +411,20 @@ function Index() {
               <div className="mt-6 grid gap-5 sm:grid-cols-2">
                 <Field name="name" label="Your Name" placeholder="Jane Doe" required />
                 <Field name="email" label="Email" type="email" placeholder="jane@example.com" required />
-                <Field name="country" label="Country of Origin" placeholder="United Kingdom" />
-                <div>
+                <div className="sm:col-span-2">
                   <label className="mb-2 block text-xs font-medium uppercase tracking-widest text-muted-foreground">
-                    Artwork of Interest
+                    I'd like to ask about
                   </label>
                   <select
                     name="artwork"
                     defaultValue=""
                     className="w-full rounded-lg border border-input bg-background px-4 py-3 text-sm text-charcoal outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                   >
-                    <option value="" disabled>Select a category…</option>
+                    <option value="" disabled>Select a topic…</option>
                     <option>Canvas Paintings</option>
                     <option>Sketches</option>
                     <option>Local Art & More</option>
-                    <option>Custom / Commission</option>
+                    <option>Planning a visit</option>
                   </select>
                 </div>
               </div>
@@ -439,7 +435,7 @@ function Index() {
                   name="message"
                   rows={5}
                   required
-                  placeholder="Tell us about the piece you have in mind, preferred size, and any references…"
+                  placeholder="Ask us about a piece, our opening hours, or how to find the gallery…"
                   className="w-full resize-none rounded-lg border border-input bg-background px-4 py-3 text-sm text-charcoal outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                 />
               </div>
@@ -458,13 +454,14 @@ function Index() {
       {/* FOOTER */}
       <footer className="border-t border-border bg-charcoal px-6 py-12 text-cream/80 lg:px-10">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 sm:flex-row">
-          <div className="flex items-center gap-3">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-primary text-primary-foreground font-display text-lg font-semibold">G</span>
-            <span className="font-display text-lg text-cream">Galeria Art & More</span>
+          <div className="flex items-center">
+            <span className="inline-flex rounded-xl bg-cream px-4 py-2.5 shadow-sm">
+              <Logo className="h-9 w-auto" />
+            </span>
           </div>
           <p className="text-center text-sm text-cream/60 sm:text-right">
             © 2026 Galeria Art & More. Beautifully Handcrafted in Hambantota, Sri Lanka.
-            <br className="hidden sm:inline" /> Worldwide Shipping Enquiries Welcome.
+            <br className="hidden sm:inline" /> Visit our gallery — we'd love to welcome you.
           </p>
         </div>
       </footer>
@@ -512,12 +509,12 @@ function Index() {
                   </div>
                   <div className="flex justify-between border-b border-border pb-3">
                     <dt className="text-muted-foreground">Availability</dt>
-                    <dd className="font-medium text-charcoal">Original & Commission</dd>
+                    <dd className="font-medium text-charcoal">View &amp; buy in person</dd>
                   </div>
                 </dl>
                 <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-                  One-of-a-kind original. Custom sizes and commissioned variations available — message the artist
-                  directly for pricing and worldwide shipping.
+                  A one-of-a-kind original. Visit our gallery in Hambantota to see it in person and take it
+                  home — message us on WhatsApp for pricing and opening hours.
                 </p>
               </div>
               <a
@@ -534,6 +531,10 @@ function Index() {
       )}
     </div>
   );
+}
+
+function Logo({ className }: { className?: string }) {
+  return <img src={logoUrl} alt="Galeria Art & More" className={className} />;
 }
 
 function Field({ name, label, type = "text", placeholder, required }: { name: string; label: string; type?: string; placeholder?: string; required?: boolean }) {
